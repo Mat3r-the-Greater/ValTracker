@@ -1,0 +1,141 @@
+<div class="tracker-container">
+    <div class="form-container">
+      <h2>Valorant Team Tracker</h2>
+      <form [formGroup]="trackerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="organization">Organization Name:</label>
+          <input type="text" id="organization" formControlName="organization" placeholder="e.g. Kettering University">
+          <div *ngIf="submitted && trackerForm.get('organization')?.errors?.['required']" class="error">
+            Organization name is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="league">League:</label>
+          <select id="league" formControlName="league">
+            <option value="">-- Select League --</option>
+            <option *ngFor="let league of leagues" [value]="league.id">{{ league.name }}</option>
+          </select>
+          <div *ngIf="submitted && trackerForm.get('league')?.errors?.['required']" class="error">
+            League is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="team">Team:</label>
+          <select id="team" formControlName="team" (change)="onTeamChange()">
+            <option value="">-- Select Team --</option>
+            <option *ngFor="let team of teams" [value]="team.id">{{ team.name }}</option>
+          </select>
+          <div *ngIf="submitted && trackerForm.get('team')?.errors?.['required']" class="error">
+            Team is required
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="season">Season:</label>
+          <select id="season" formControlName="season">
+            <option value="">-- Select Season --</option>
+            <option *ngFor="let season of seasons" [value]="season.id">{{ season.name }}</option>
+          </select>
+          <div *ngIf="submitted && trackerForm.get('season')?.errors?.['required']" class="error">
+            Season is required
+          </div>
+        </div>
+  
+        <div class="form-group view-type">
+          <label>View Type:</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" formControlName="viewType" value="weekly">
+              Weekly View
+            </label>
+            <label>
+              <input type="radio" formControlName="viewType" value="season">
+              Season View
+            </label>
+          </div>
+        </div>
+  
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Submit</span>
+          <span *ngIf="isLoading">Loading...</span>
+        </button>
+      </form>
+    </div>
+  
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading team data...</p>
+    </div>
+  
+    <div *ngIf="submitted && trackerForm.valid && !isLoading" class="results-container">
+      <div *ngIf="viewMode === 'weekly'" class="weekly-view">
+        <h3>Weekly Match Results</h3>
+        
+        <div *ngFor="let match of recentMatches" class="match-card">
+          <div class="match-header">
+            <span class="match-date">{{ match.date | date:'mediumDate' }}</span>
+            <span class="match-opponent">vs {{ match.opponent }}</span>
+            <span class="match-result" [ngClass]="{'win': match.result === 'Win', 'loss': match.result === 'Loss'}">
+              {{ match.result }}: {{ match.score }}
+            </span>
+          </div>
+          
+          <div class="match-stats">
+            <table>
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Role</th>
+                  <th>K</th>
+                  <th>D</th>
+                  <th>A</th>
+                  <th>ACS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let player of match.playerStats">
+                  <td>{{ player.name }}</td>
+                  <td>{{ player.role }}</td>
+                  <td>{{ player.stats.kills }}</td>
+                  <td>{{ player.stats.deaths }}</td>
+                  <td>{{ player.stats.assists }}</td>
+                  <td>{{ player.stats.averageCombatScore }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="viewMode === 'season'" class="season-view">
+        <h3>Season Statistics</h3>
+        
+        <div class="season-stats">
+          <table>
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Role</th>
+                <th>Avg K</th>
+                <th>Avg D</th>
+                <th>Avg A</th>
+                <th>Avg ACS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of seasonStats">
+                <td>{{ player.name }}</td>
+                <td>{{ player.role }}</td>
+                <td>{{ player.stats.kills | number:'1.1-1' }}</td>
+                <td>{{ player.stats.deaths | number:'1.1-1' }}</td>
+                <td>{{ player.stats.assists | number:'1.1-1' }}</td>
+                <td>{{ player.stats.averageCombatScore | number:'1.0-0' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
