@@ -10,6 +10,7 @@ import { TeamTrackerService, League, Team, Season, Match, Player } from '../serv
   templateUrl: './team-tracker.component.html',
   styleUrl: './team-tracker.component.css'
 })
+
 export class TeamTrackerComponent implements OnInit {
   trackerForm: FormGroup;
   submitted = false;
