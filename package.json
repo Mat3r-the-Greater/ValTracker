@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:ValTracker": "node dist/val-tracker/server/server.mjs"
+    "serve:ssr:ValTracker": "node dist/val-tracker/server/server.mjs",
     "deploy": "ng deploy --base-href=/ValTracker/"
   },
   "private": true,
