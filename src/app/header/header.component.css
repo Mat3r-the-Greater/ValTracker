@@ -1,0 +1,39 @@
+.main-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background: linear-gradient(rgba(255, 70, 86, 0.65), rgba(255, 70, 86, 0.65)), url('../../assets/ValTeam.jpg');
+    background-size: 78%;
+    background-position: 32% 40%;
+    color: rgb(255, 251, 251);
+    width:100%;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+  
+  .main-header .logo {
+    font-size: 8rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  
+  .main-header nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main-header nav ul li {
+    margin-left: 1rem;
+  }
+  
+  .main-header nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .main-header nav ul li a:hover {
+    text-decoration: underline;
+  }
