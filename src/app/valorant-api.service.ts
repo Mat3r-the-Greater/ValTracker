@@ -59,13 +59,12 @@ export interface ValorantTeam {
   providedIn: 'root'
 })
 export class ValorantApiService {
-  private apiKey = 'RGAPI-72fa47bc-d8fe-42a3-891d-671d99609c96'; // Replace with your actual API key
-  private baseUrl = 'https://api.allorigins.win/raw?url=https://americas.api.riotgames.com';
+  private baseUrl = 'http://localhost:3001/api';
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'X-Riot-Token': this.apiKey
+      'Content-Type': 'application/json'
     });
   }
 

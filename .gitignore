@@ -49,3 +49,7 @@ node_modules/
 dist/
 *.log
 .DS_Store
+
+# API Keys
+.env
+proxy-server/.env
