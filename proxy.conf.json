@@ -1,0 +1,11 @@
+{
+  "/ValTracker/api/*": {
+    "target": "https://americas.api.riotgames.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/ValTracker/api": ""
+    }
+  }
+}
