@@ -1,110 +1,46 @@
-<div class="recent-match-container">
-  <h2>Most Recent Match - Mat3r#t0w</h2>
+<div class="player-stats-container">
+  <h2>Player Stats Lookup</h2>
 
-  <div *ngIf="loading" class="loading">
-    <div class="loading-spinner"></div>
-    <p>Loading your most recent match...</p>
+  <div class="search-form">
+    <input [(ngModel)]="playerName"
+           placeholder="Player Name"
+           type="text" />
+    <input [(ngModel)]="playerTag"
+           placeholder="Tag (e.g., NA1)"
+           type="text" />
+    <select [(ngModel)]="region">
+      <option value="na">North America</option>
+      <option value="eu">Europe</option>
+      <option value="ap">Asia Pacific</option>
+      <option value="kr">Korea</option>
+    </select>
+    <button (click)="searchPlayer()">Search</button>
   </div>
 
-  <div *ngIf="error" class="error">
-    <h3>⚠️ Unable to Load Match Data</h3>
-    <p>{{ error }}</p>
-    <button (click)="loadRecentMatch()">Try Again</button>
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="playerData" class="player-data">
+    <h3>Account Info</h3>
+    <p><strong>Name:</strong> {{ playerData.name }}#{{ playerData.tag }}</p>
+    <p><strong>Level:</strong> {{ playerData.account_level }}</p>
+    <p><strong>Region:</strong> {{ playerData.region }}</p>
   </div>
 
-  <div *ngIf="recentMatch && !loading" class="match-display">
-    <!-- Match Header -->
-    <div class="match-header">
-      <div class="match-result" [class.victory]="playerWon" [class.defeat]="!playerWon">
-        <h3>{{ playerWon ? 'VICTORY' : 'DEFEAT' }}</h3>
-      </div>
-      <div class="match-info">
-        <div class="map-info">
-          <h4>{{ getMapName(recentMatch.matchInfo.mapId) }}</h4>
-          <p>{{ recentMatch.matchInfo.gameMode }} • {{ recentMatch.matchInfo.isRanked ? 'Ranked' : 'Unranked' }}</p>
-        </div>
-        <div class="duration">
-          <p>{{ formatDuration(recentMatch.matchInfo.gameLengthMillis) }}</p>
-          <p>{{ formatDate(recentMatch.matchInfo.gameStartMillis) }}</p>
-        </div>
-      </div>
-    </div>
+  <div *ngIf="mmrData" class="mmr-data">
+    <h3>Rank Info</h3>
+    <p><strong>Current Rank:</strong> {{ mmrData.currenttierpatched }}</p>
+    <p><strong>Rating:</strong> {{ mmrData.ranking_in_tier }}/100</p>
+    <p><strong>Elo:</strong> {{ mmrData.elo }}</p>
+  </div>
 
-    <!-- Score Display -->
-    <div class="score-display">
-      <div class="team-score"
-           [class.winning-team]="recentMatch.teams[0]?.won"
-           [class.losing-team]="!recentMatch.teams[0]?.won">
-        <span class="team-name">Team {{ recentMatch.teams[0]?.teamId }}</span>
-        <span class="score">{{ recentMatch.teams[0]?.roundsWon }}</span>
-      </div>
-      <div class="vs">VS</div>
-      <div class="team-score"
-           [class.winning-team]="recentMatch.teams[1]?.won"
-           [class.losing-team]="!recentMatch.teams[1]?.won">
-        <span class="team-name">Team {{ recentMatch.teams[1]?.teamId }}</span>
-        <span class="score">{{ recentMatch.teams[1]?.roundsWon }}</span>
-      </div>
-    </div>
-
-    <!-- Your Performance -->
-    <div *ngIf="myStats" class="my-performance">
-      <h3>Your Performance</h3>
-      <div class="performance-card">
-        <div class="agent-info">
-          <div class="agent-name">{{ getAgentName(myStats.characterId) }}</div>
-        </div>
-        <div class="kda">
-          <div class="stat">
-            <span class="number">{{ myStats.stats.kills }}</span>
-            <span class="label">Kills</span>
-          </div>
-          <div class="stat">
-            <span class="number">{{ myStats.stats.deaths }}</span>
-            <span class="label">Deaths</span>
-          </div>
-          <div class="stat">
-            <span class="number">{{ myStats.stats.assists }}</span>
-            <span class="label">Assists</span>
-          </div>
-        </div>
-        <div class="additional-stats">
-          <div class="stat-item">
-            <span>KD Ratio: {{ getKDRatio(myStats.stats.kills, myStats.stats.deaths) }}</span>
-          </div>
-          <div class="stat-item">
-            <span>Combat Score: {{ myStats.stats.score }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- All Players Scoreboard -->
-    <div class="scoreboard">
-      <h3>Match Scoreboard</h3>
-      <div class="teams-container">
-        <div *ngFor="let team of recentMatch.teams" class="team-section">
-          <h4 class="team-header" [class.winning-team]="team.won">
-            Team {{ team.teamId }} {{ team.won ? '(Won)' : '(Lost)' }}
-          </h4>
-          <div class="players-list">
-            <div *ngFor="let player of getPlayersForTeam(team.teamId)"
-                 class="player-row"
-                 [class.my-player]="player.gameName === 'Mat3r' && player.tagLine === 't0w'">
-              <div class="player-name">
-                <span class="name">{{ player.gameName }}</span>
-                <span class="tag">#{{ player.tagLine }}</span>
-                <span *ngIf="player.gameName === 'Mat3r' && player.tagLine === 't0w'" class="you-badge">YOU</span>
-              </div>
-              <div class="agent">{{ getAgentName(player.characterId) }}</div>
-              <div class="stats-row">
-                <span class="kda">{{ player.stats.kills }}/{{ player.stats.deaths }}/{{ player.stats.assists }}</span>
-                <span class="score">{{ player.stats.score }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div *ngIf="matches && matches.length > 0" class="matches">
+    <h3>Recent Matches</h3>
+    <div *ngFor="let match of matches" class="match-card">
+      <p><strong>Map:</strong> {{ match.metadata.map }}</p>
+      <p><strong>Mode:</strong> {{ match.metadata.mode }}</p>
+      <p><strong>Result:</strong> {{ getMatchResult(match) }}</p>
     </div>
   </div>
 </div>

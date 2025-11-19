@@ -1,267 +1,80 @@
-.recent-match-container {
-  padding: 20px;
-  max-width: 1000px;
+.player-stats-container {
+  padding: 2rem;
+  max-width: 1200px;
   margin: 0 auto;
-  color: white;
 }
+
+.search-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+  .search-form input,
+  .search-form select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    background-color: white;
+  }
+
+  .search-form button {
+    padding: 0.5rem 1rem;
+    background-color: #ff4654;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+    .search-form button:hover {
+      background-color: #e03e4a;
+    }
 
 .loading {
   text-align: center;
-  padding: 40px;
-}
-
-.loading-spinner {
-  border: 3px solid #444;
-  border-top: 3px solid #ff4656;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+  padding: 2rem;
+  font-size: 1.2rem;
 }
 
 .error {
-  background-color: #ff4444;
-  color: white;
-  padding: 20px;
+  color: #ff4654;
+  padding: 1rem;
+  background-color: rgba(255, 70, 84, 0.1);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.player-data,
+.mmr-data {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
   border-radius: 8px;
-  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-  .error button {
-    background-color: white;
-    color: #ff4444;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-
-.match-display {
-  background-color: #2a2a2a;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.match-header {
-  background: linear-gradient(135deg, #ff4656, #e63946);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.match-result h3 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.victory {
-  color: #00ff88;
-}
-
-.defeat {
-  color: #ff4444;
-}
-
-.match-info {
-  text-align: right;
-}
-
-.map-info h4 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.score-display {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  background-color: #333;
-}
-
-.team-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 15px 25px;
+.matches {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
   border-radius: 8px;
-  min-width: 120px;
 }
 
-.winning-team {
-  background-color: rgba(0, 255, 136, 0.2);
-  border: 2px solid #00ff88;
+.match-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border-left: 4px solid #ff4654;
 }
 
-.losing-team {
-  background-color: rgba(255, 68, 68, 0.2);
-  border: 2px solid #ff4444;
+h2, h3 {
+  color: #fff;
+  margin-top: 0;
 }
 
-.team-score .score {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.vs {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #999;
-}
-
-.my-performance {
-  padding: 20px;
-  background-color: #444;
-}
-
-.performance-card {
-  background-color: #555;
-  padding: 20px;
-  border-radius: 8px;
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 20px;
-  align-items: center;
-}
-
-.agent-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ff4656;
-}
-
-.kda {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-}
-
-.stat {
-  text-align: center;
-}
-
-  .stat .number {
-    display: block;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ff4656;
-  }
-
-  .stat .label {
-    font-size: 0.9rem;
-    color: #ccc;
-  }
-
-.additional-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.scoreboard {
-  padding: 20px;
-}
-
-.teams-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.team-section {
-  background-color: #444;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.team-header {
-  padding: 15px;
-  margin: 0;
-  background-color: #555;
-  text-align: center;
-}
-
-  .team-header.winning-team {
-    background-color: rgba(0, 255, 136, 0.3);
-  }
-
-.players-list {
-  padding: 10px;
-}
-
-.player-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  background-color: #333;
-  align-items: center;
-}
-
-.my-player {
-  background-color: rgba(255, 70, 86, 0.2) !important;
-  border: 1px solid #ff4656;
-}
-
-.player-name {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.tag {
-  color: #999;
-  font-size: 0.9rem;
-}
-
-.you-badge {
-  background-color: #ff4656;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-size: 0.7rem;
-  font-weight: bold;
-}
-
-.stats-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.kda {
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .performance-card {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .teams-container {
-    grid-template-columns: 1fr;
-  }
-
-  .score-display {
-    flex-direction: column;
-    gap: 15px;
-  }
+p {
+  margin: 0.5rem 0;
 }

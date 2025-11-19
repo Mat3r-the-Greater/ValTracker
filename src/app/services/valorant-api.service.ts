@@ -60,6 +60,8 @@ export interface ValorantTeam {
 })
 export class ValorantApiService {
   private baseUrl = 'http://localhost:3001/api';
+  private henrikUrl = 'https://api.henrikdev.xyz/valorant';
+
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
@@ -67,6 +69,10 @@ export class ValorantApiService {
       'Content-Type': 'application/json'
     });
   }
+
+  // ============================================
+  // OFFICIAL RIOT API METHODS (via proxy)
+  // ============================================
 
   // Get account info by Riot ID (gameName#tagLine)
   getAccountByRiotId(gameName: string, tagLine: string): Observable<ValorantAccount> {
@@ -105,5 +111,42 @@ export class ValorantApiService {
         error: (error) => observer.error(error)
       });
     });
+  }
+
+  // ============================================
+  // HENRIK UNOFFICIAL API METHODS
+  // (Use these when you don't have proxy access)
+  // ============================================
+
+  // Get account details by name and tag (Henrik API)
+  getAccountHenrik(name: string, tag: string): Observable<any> {
+    return this.http.get(`${this.henrikUrl}/v1/account/${name}/${tag}`);
+  }
+
+  // Get MMR (rank) data (Henrik API)
+  getMMR(region: string, name: string, tag: string): Observable<any> {
+    return this.http.get(`${this.henrikUrl}/v2/mmr/${region}/${name}/${tag}`);
+  }
+
+  // Get match history (Henrik API)
+  getMatchHistory(region: string, name: string, tag: string, filter?: string): Observable<any> {
+    const filterParam = filter ? `?filter=${filter}` : '';
+    return this.http.get(`${this.henrikUrl}/v3/matches/${region}/${name}/${tag}${filterParam}`);
+  }
+
+  // Get specific match details (Henrik API)
+  getMatchDetails(matchId: string): Observable<any> {
+    return this.http.get(`${this.henrikUrl}/v2/match/${matchId}`);
+  }
+
+  // Get leaderboard (Henrik API)
+  getLeaderboard(region: string, season?: string): Observable<any> {
+    const seasonParam = season ? `?season=${season}` : '';
+    return this.http.get(`${this.henrikUrl}/v2/leaderboard/${region}${seasonParam}`);
+  }
+
+  // Get store offers (Henrik API)
+  getStoreOffers(): Observable<any> {
+    return this.http.get(`${this.henrikUrl}/v1/store-offers`);
   }
 }
