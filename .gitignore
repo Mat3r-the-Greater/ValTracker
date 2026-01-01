@@ -53,3 +53,7 @@ dist/
 # API Keys
 .env
 proxy-server/.env
+
+# Backend environment variables
+backend/.env
+backend/node_modules

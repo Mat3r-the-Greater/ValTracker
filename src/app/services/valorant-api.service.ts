@@ -60,7 +60,6 @@ export interface ValorantTeam {
 })
 export class ValorantApiService {
   private baseUrl = 'http://localhost:3001/api';
-  private henrikUrl = 'https://api.henrikdev.xyz/valorant';
 
   constructor(private http: HttpClient) { }
 
@@ -115,38 +114,39 @@ export class ValorantApiService {
 
   // ============================================
   // HENRIK UNOFFICIAL API METHODS
-  // (Use these when you don't have proxy access)
+  // (Use these through backend proxy for security)
   // ============================================
 
-  // Get account details by name and tag (Henrik API)
+  // Get account details by name and tag (Henrik API via proxy)
   getAccountHenrik(name: string, tag: string): Observable<any> {
-    return this.http.get(`${this.henrikUrl}/v1/account/${name}/${tag}`);
+    // Using backend proxy instead of direct API call
+    return this.http.get(`${this.baseUrl}/henrik/account/${name}/${tag}`);
   }
 
-  // Get MMR (rank) data (Henrik API)
+  // Get MMR (rank) data (Henrik API via proxy)
   getMMR(region: string, name: string, tag: string): Observable<any> {
-    return this.http.get(`${this.henrikUrl}/v2/mmr/${region}/${name}/${tag}`);
+    return this.http.get(`${this.baseUrl}/henrik/mmr/${region}/${name}/${tag}`);
   }
 
-  // Get match history (Henrik API)
+  // Get match history (Henrik API via proxy)
   getMatchHistory(region: string, name: string, tag: string, filter?: string): Observable<any> {
     const filterParam = filter ? `?filter=${filter}` : '';
-    return this.http.get(`${this.henrikUrl}/v3/matches/${region}/${name}/${tag}${filterParam}`);
+    return this.http.get(`${this.baseUrl}/henrik/matches/${region}/${name}/${tag}${filterParam}`);
   }
 
-  // Get specific match details (Henrik API)
+  // Get specific match details (Henrik API via proxy)
   getMatchDetails(matchId: string): Observable<any> {
-    return this.http.get(`${this.henrikUrl}/v2/match/${matchId}`);
+    return this.http.get(`${this.baseUrl}/henrik/match/${matchId}`);
   }
 
-  // Get leaderboard (Henrik API)
+  // Get leaderboard (Henrik API via proxy)
   getLeaderboard(region: string, season?: string): Observable<any> {
     const seasonParam = season ? `?season=${season}` : '';
-    return this.http.get(`${this.henrikUrl}/v2/leaderboard/${region}${seasonParam}`);
+    return this.http.get(`${this.baseUrl}/henrik/leaderboard/${region}${seasonParam}`);
   }
 
-  // Get store offers (Henrik API)
+  // Get store offers (Henrik API via proxy)
   getStoreOffers(): Observable<any> {
-    return this.http.get(`${this.henrikUrl}/v1/store-offers`);
+    return this.http.get(`${this.baseUrl}/henrik/store-offers`);
   }
 }
